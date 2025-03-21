@@ -1,0 +1,54 @@
+<!-- app/views/deliveries/index.html.erb -->
+
+<h1>Delivery Tracker</h1>
+
+<p>Know if something gets lost in the mail.</p>
+
+<h2>Expecting a package?</h2>
+
+<%= form_with model: @delivery, local: true do |f| %>
+  <div>
+    <%= f.label :description, "Description" %>
+    <%= f.text_field :description %>
+  </div>
+  <div>
+    <%= f.label :expected_on, "Supposed to arrive on" %>
+    <%= f.date_field :expected_on %>
+  </div>
+  <div>
+    <%= f.label :details, "Details" %>
+    <%= f.text_area :details %>
+  </div>
+  <div>
+    <!-- A real <button> so the test sees <button>Log delivery</button> -->
+    <%= f.button :submit do %>
+      Log delivery
+    <% end %>
+  </div>
+<% end %>
+
+<div class="waiting_on">
+  <h2>Waiting on</h2>
+
+  <% @waiting_on.each do |delivery| %>
+    <p>
+      <strong><%= delivery.description %></strong><br>
+      Supposed to arrive on <%= delivery.expected_on %><br>
+      <!-- Add the "Mark as received" button -->
+      <%= button_to "Mark as received", delivery_path(delivery), method: :patch %>
+    </p>
+  <% end %>
+</div>
+
+
+<div class="received">
+  <h2>Received</h2>
+  <ul>
+    <% @received.each do |delivery| %>
+      <li>
+        <strong><%= delivery.description %></strong><br>
+        <%= link_to "Delete", delivery_path(delivery), method: :delete %>
+      </li>
+    <% end %>
+  </ul>
+</div>

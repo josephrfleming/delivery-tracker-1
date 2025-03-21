@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  devise_for :users
+  
+  # Our root (home) page is the index action of DeliveriesController.
+  root "deliveries#index"
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  # We only need the :index, :create, :update, and :destroy actions on Deliveries.
+  resources :deliveries, only: [:index, :create, :update, :destroy]
 end
